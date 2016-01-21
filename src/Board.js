@@ -146,16 +146,6 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      //intial row will be zero every time
-      //intial column is whatever is passed in
-      //loop through rows
-      //everytime we getinto the forloop we willl increment column
-        //this way we can access diagonal
-      //do check to see if we are in bound of the board
-        //helper function on line 57 will let us know if we are in bounds
-      // if we are inbound we can increment queencounter
-        //if we are not inbound just move on to next iteration
-      //break if greater than 1
 
       var rows = this.rows();
       var queenCounter = 0;
@@ -214,8 +204,8 @@
         var row = rows[i];
         if (this._isInBounds(i, colIndex)) {
           queenCounter += row[colIndex];
-          colIndex--;
         }
+        colIndex--;
         if (queenCounter > 1) {
           break;
         }

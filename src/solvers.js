@@ -63,86 +63,29 @@ window.countNRooksSolutions = function(n) {
   var board = new Board({n: n});
   var rows = board.rows();
   var result = {};
+  var solutionIndexes = {};
 
-  function copyBoard(board){
-    var matrix = [];
-    var rows = board.rows();
-    for(var i = 0; i < rows.length; i++){
-      var row = rows[i];
-      matrix.push([]);
-      for(var k = 0; k < rows.length; k++){
-        matrix[i].push(row[k]);
+  function placeNextPiece(rowIndex){
+      return 0;
+      var row = rows[rowIndex];
+      if(rowIndex === n){
+        solutionCount++;
+      } else{
+        for(var i = 0; i < row.length; i++){
+          board.togglePiece(rowIndex, i);
+          if(!board.hasAnyColConflicts()){
+            var newRowIndex = rowIndex + 1; 
+            placeNextPiece(newRowIndex);
+          } 
+            board.togglePiece(rowIndex, i);
       }
     }
-    var newBoard = new Board(matrix);
-    return newBoard;
-  };
+};
 
- 
-  //this function takes an entire board,
-    // and pieces in valide positions
-  //add the next piece FOR LOOP
-    // we will pass board in with new piece located 1,1
-      //passed it in again
-  // will add new pieces 
-  //base case are number of the pieces on the board equal to n
-    //this is when we know we placed as many as we can
-  //when called recursively search()
-  //search(board, 0);
-  function placeNextPiece(board, piecesOnBoard){
-    if(piecesOnBoard === n){
-      var rowResult = JSON.stringify(board.rows());
-      if(result[rowResult] !== 1) {
-        result[rowResult] = 1;
-        solutionCount ++;
-      }
-    } else{
-      var rows = board.rows();
-      for(var i = 0; i < rows.length; i++){
-        var row = rows[i];
-        for(var k = 0; k < rows.length; k++){
-          if(!row[k]){
-            board.togglePiece(i, k);
-             if (board.hasAnyRooksConflicts()) {
-                board.togglePiece(i, k);
-            } else {
-              var newBoard = copyBoard(board);
-              board.togglePiece(i, k); 
-              var pieces = piecesOnBoard + 1;
-              placeNextPiece(newBoard, pieces); 
-            }
-          }
-        }
-      } 
-    }
-  }
-  placeNextPiece(board, 0);
-  // while (i < n) {
-  //   for (var j = 0; j < rows.length; j++) {
-  //     var row = rows[i];
-  //     for (var k = 0; i < row.length; k++) {
-  //       if (!row[k]) {
-  //         board.togglePiece(j, k);
-  //         if (board.hasanyRooksConflicts()) {
-  //           board.togglePiece(j, k);
-  //         } else {
-
-  //         }
-  //       }
-  //     }
-  //   }
-
-// var rowResult = stingify.json(board.rows())
-// result[rowResult] = 1;
-// 
-// if(result[rowResult] !== 1){
-//     i++;
-//     solution++;
-// }
-
-
+  placeNextPiece(0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
+  
 };
 
 
