@@ -85,14 +85,63 @@ window.countNRooksSolutions = function(n) {
   placeNextPiece(0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
-  
+
 };
 
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  //first row we will place a queen in the first spot
+    //see if there is any conflict
+    //call same function on the next row
+  //find first conflict that is valid to place queen
+    //call function on the next row
+  //find first column that is valid to put it
+    //there is no valid place
+      //return
+        //we will not continue to try to find solution for board
+        //that looks identically
+  //if it failed increment column, 
+    // then try the next rows again
+    //valid place to put on row three
+      //call on next row 
+
+  var solution = undefined;
+  var board = new Board({n: n});
+  var rows = board.rows();
+
+  function placeNextQueen(rowIndex){
+    if(solution){
+      return;
+    } 
+    if(rowIndex === n){
+      solution = board.rows();
+    } else {
+      for(var i = 0; i < rows.length; i++){
+        board.togglePiece(rowIndex, i);
+
+        if(!board.hasAnyColConflicts() &&
+        !board.hasAnyMajorDiagonalConflicts() &&
+        !board.hasAnyMinorDiagonalConflicts()){
+          var newRowIndex = rowIndex + 1;
+          placeNextQueen(newRowIndex);
+        }
+        if (!solution) {
+          board.togglePiece(rowIndex, i);
+        } else {
+          break;
+        }
+      }
+    }
+  }
+
+  placeNextQueen(0);
+  
+  if (!solution) {
+    solution = board.rows();
+  }
+  
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
