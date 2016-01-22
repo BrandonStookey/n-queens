@@ -68,6 +68,7 @@ window.countNRooksSolutions = function(n) {
       var row = rows[rowIndex];
       if(rowIndex === n){
         solutionCount++;
+        return;
       } else{
         for(var i = 0; i < row.length; i++){
           board.togglePiece(rowIndex, i);
